@@ -1,21 +1,20 @@
 package com.lensoncode.tryouts.libraryservice.service;
 
+import com.lensoncode.tryouts.libraryservice.client.BookApi;
 import com.lensoncode.tryouts.libraryservice.dto.BookDTO;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final BookApi bookApi;
 
     @HystrixCommand(fallbackMethod = "bookNotAvailable")
     public BookDTO getBookByName(String bookName) {
-        return restTemplate
-                .getForObject("http://book-service/book/" + bookName, BookDTO.class);
+        return bookApi.getBookInfo(bookName);
     }
 
     private BookDTO bookNotAvailable(String bookName) {

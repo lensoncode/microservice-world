@@ -6,7 +6,7 @@ import com.lensoncode.tryouts.libraryservice.dto.BookDTO;
 import com.lensoncode.tryouts.libraryservice.dto.BookInfoDTO;
 import com.lensoncode.tryouts.libraryservice.service.AuthorService;
 import com.lensoncode.tryouts.libraryservice.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("library")
+@RequiredArgsConstructor
 public class LibraryController {
 
     private List<String> hardCodedDemoBooks = List.of(
@@ -24,12 +25,8 @@ public class LibraryController {
             "Book3",
             "Book4");
 
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private AuthorService authorService;
-
+    private final BookService bookService;
+    private final AuthorService authorService;
 
     @GetMapping("book")
     public BookCollectionDTO getAllBooks() {
